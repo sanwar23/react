@@ -1020,6 +1020,10 @@ caption {
   }
 }
 
+.error{
+  color: #d33c40;
+}
+
 /*
  * Navigation
  */

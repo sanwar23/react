@@ -12,7 +12,8 @@ class App extends Component {
 
   state = {
     characters: [],
-    updated:[]
+    updated:[],
+    btn: 'Add'
   };
 
 
@@ -20,13 +21,16 @@ class App extends Component {
     console.log(character);
     this.setState({
       updated: character,
+      
     })
+    console.log(character);
   }
 
   handleEdit = (user) => {
     console.log(user);
     this.setState({
-      characters:user
+      characters:user,   
+      btn: 'Update'   
     })
     console.log(this.state);
   }
@@ -42,8 +46,8 @@ class App extends Component {
         <div className="container" >
           {/* <Table characterData={characters} removeCharacter={this.removeCharacter} />  handleEdit={this.handleEdit}*/}
           
-          <Form  users={this.state.updated} handleSubmit={this.handleSubmit} />
-          <User  users={this.state.updated} handleSubmit={this.handleSubmit} />
+          <Form  users={this.state.updated} btn={this.state.btn} handleSubmit={this.handleSubmit} />
+          <User  users={this.state.updated} handleSubmit={this.handleEdit} />
         </div>
       )
     }

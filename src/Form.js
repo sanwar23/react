@@ -7,6 +7,7 @@ class Form extends Component {
         address: '',
         mobile: '',
         college: '',
+        btn:'Add',
         errors: {
             name: '',
             address: '',
@@ -26,9 +27,21 @@ class Form extends Component {
         let errors = this.state.errors;
         switch (name) {
             case 'name':
-                errors.name = value.length < 5 ? 'Name Should Not be empty' : '';
+                errors.name = (value.length < 0 || value === '' )? 'Name should Not be empty !!' : '';
                 break
+            case 'address':
+                errors.address = value.length < 0 ? 'Address should not be empty !!' : '';
+                break;
 
+            case 'mobile':
+                var pattern = new RegExp(/^[0-9\b]+$/);
+
+                errors.mobile = !pattern.test(value) ? 'Invalid mobile number !!' : '';
+                break;
+
+            case 'college':
+                errors.college = value.length < 0 ? 'College should not be empty !!' : '';
+                break;
             default:
                 break;
 
@@ -40,79 +53,112 @@ class Form extends Component {
     }
 
 
+    validateForm = (errors) => {
+
+        let valid = true;
+            console.log(errors);
+            console.log( Object.values(errors));
+        Object.values(errors).forEach(
+            (val) => {
+                if(val.length > 0){
+                    valid = false
+                }
+            }
+        );
+        console.log(valid)
+        return valid;
+    }
 
     submitForm = (event) => {
-        /*    event.preventDefault();    
-           if(validateForm(this.state.errors)){
-               console.log('valid form')
-           } else {
-               console.log('Invalid form')
-           } */
-
-        this.props.handleSubmit(this.state)
+        event.preventDefault();
+        
+        if (this.validateForm(this.state.errors)) {
+            console.log('valid form')
+            if( this.handleValidation()){
+                this.props.handleSubmit(this.state)
+                this.setState(this.initialState)
+            }
+        } else {
+            
+            console.log('Invalid form')
+            
+        }
 
         console.log(this.state);
-        this.setState(this.initialState)
     }
 
+    handleValidation = (event) => {
+        let errors = this.state.errors;
+        let fields = this.state;
+        let formIsValid = true;
 
-    validateForm = (errors) => {
-        let valid = true
+        if(fields.name === ''){
+            errors.name ='Name should Not be empty !!';
+            formIsValid = false;
+        }
 
-        Object.values(errors).forEach(
-            (val) => (val.length > 0) ? (valid = false) : valid = true
-        )
+        if(fields.address === ''){
+            errors.address ='Address should Not be empty !!';
+            formIsValid = false;
+        }
+
+        if(fields.mobile === ''){
+            errors.mobile ='Mobile should Not be empty !!';
+            formIsValid = false;
+        }
+
+        if(fields.college === ''){
+            errors.college ='College should Not be empty !!';
+            formIsValid = false;
+        }
+      
+        this.setState({ errors: errors });
+        return formIsValid
+      
     }
+
 
     componentDidMount() {
-
-        /* if(this.props.usersEdit){
-            this.setState({
-                initialState:this.props.usersEdit
-            })
-        } */
         console.log(this.state);
     }
     componentWillReceiveProps(nextProps, nextState) {
         
-        console.log('componentWillReceiveProps')
         if (this.state !== nextProps.users) {
             this.setState(
-                nextProps.users
+                nextProps.users,
             )
-            // this.setState({showNotif: true});
+            this.setState({btn: nextProps.btn});
         }
     }
 
     render() {
-        /*  if(this.props.usersEdit){
-             
-             this.setState({
-                 initialState:this.props.usersEdit
-             })
-         } */
 
-        const { name, address, mobile, college } = this.state;
-
+        const { name, address, mobile, college,btn } = this.state;
+        const { errors } = this.state;
         return (
             <div>
                 <form>
                     <label htmlFor="name">Name</label>
                     <input type="text" name="name" id="name" value={name} onChange={this.handleChange} />
+                    {errors.name.length > 0 && <span className='error'>{errors.name}</span>}
 
                     <label htnlFor="address">Address</label>
                     <input type="text" name="address" id="address" value={address} onChange={this.handleChange} />
+                    {errors.address.length > 0 && <span className='error'>{errors.address}</span>}
 
                     <label htmlFor="mobile">Mobile</label>
                     <input type="text" name="mobile" id="mobile" value={mobile} onChange={this.handleChange} />
+                    {errors.mobile.length > 0 && <span className='error'>{errors.mobile}</span>}
 
                     <label htmlFor="college">College</label>
                     <input type="text" name="college" id="college" value={college} onChange={this.handleChange} />
+                    {errors.college.length > 0 && <span className='error'>{errors.college}</span>}
 
-                    <input type="button" value="submit" onClick={this.submitForm} />
+
+                    <input type="button" value={btn} onClick={this.submitForm} />
                 </form>
 
-                
+
             </div>
         )
     }
