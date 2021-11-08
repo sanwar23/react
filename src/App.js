@@ -1,49 +1,49 @@
 import React, {Component } from "react"
-import Table from "./Table"
-
-
-/* removeCharacter = (index) => {
-  const {characters} = this.state
-  this.setState({
-    characters:characters.filter((character,i) => {
-      return i !== index
-    }),
-  })
-} */
-
-
+import Form from "./Form";
+// import Table from "./Table"
+import User from "./User";
 
 class App extends Component {
-    render(){
+  constructor(){
+    super()
+    console.log('call construtor');
+  }
 
-     /*  state = {
-        characters:[
-        ]
-      }
 
-      const { characters } = this.state */
+  state = {
+    characters: [],
+    updated:[]
+  };
 
-        const characters = [{
-            name: 'Charlie',
-            job: 'Janitor',
-          },
-          {
-            name: 'Mac',
-            job: 'Bouncer',
-          },
-          {
-            name: 'Dee',
-            job: 'Aspring actress',
-          },
-          {
-            name: 'Dennis',
-            job: 'Bartender',
-          }
-        ]
+
+  handleSubmit = (character) => {
+    console.log(character);
+    this.setState({
+      updated: character,
+    })
+  }
+
+  handleEdit = (user) => {
+    console.log(user);
+    this.setState({
+      characters:user
+    })
+    console.log(this.state);
+  }
+
+  componentDidUpdate(){
+
+  }
+
+
+  render(){
 
       return (
         <div className="container" >
-          <Table characterData={characters} />
+          {/* <Table characterData={characters} removeCharacter={this.removeCharacter} />  handleEdit={this.handleEdit}*/}
+          
+          <Form  users={this.state.updated} handleSubmit={this.handleSubmit} />
+          <User  users={this.state.updated} handleSubmit={this.handleSubmit} />
         </div>
       )
     }
