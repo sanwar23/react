@@ -1,8 +1,48 @@
-import { Component } from "react";
+// import { Component } from "react";
+import React, { useState } from "react";
 
-class User extends Component {
 
-    editForm = ()=>{
+const User = (props) => {
+    console.log(props)
+
+    const editForm = () => {
+        console.log(props.users);
+        props.handleSubmit(props.users);
+    }
+
+    return (
+        <div style={{ 'margin-top': '30px' }}>
+            <h1>Filled Details</h1>
+            <input type="button" value="Edit" onClick={editForm} />
+
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td>{props.users.name}</td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td>{props.users.address}</td>
+                </tr>
+                <tr>
+                    <td>Mobile:</td>
+                    <td>{props.users.mobile}</td>
+                </tr>
+                <tr>
+                    <td>College:</td>
+                    <td>{props.users.college}</td>
+                </tr>
+            </table>
+
+        </div>
+    )
+}
+
+
+
+/* class User extends Component {
+
+    editForm = () => {
         console.log(this.props.users);
         this.props.handleSubmit(this.props.users);
     }
@@ -13,7 +53,7 @@ class User extends Component {
             <div style={{ 'margin-top': '30px' }}>
                 <h1>Filled Details</h1>
                 <input type="button" value="Edit" onClick={this.editForm} />
-                
+
                 <table>
                     <tr>
                         <td>Name:</td>
@@ -36,6 +76,6 @@ class User extends Component {
             </div>
         )
     }
-}
+} */
 
 export default User;
